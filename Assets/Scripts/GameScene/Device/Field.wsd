@@ -1,0 +1,74 @@
+@startuml Field
+
+
+scale 2
+skinparam DefaultFontName 源ノ角ゴシック Code JP Medium
+
+package GameInfo
+{
+    interface IPosition
+    {
+        + Cards <<readonly>>
+        + IsPlayer<<get>>
+        + Pos<<get>>
+    } 
+
+
+    abstract class PositionLocatorInfo
+    {
+        + Resolve(Pos)
+    }
+}
+
+package Device\n(CommandまたはAbilityからのみ参照可能)
+{
+
+    class AttackManager
+    {
+        + AttackManager(attacker,target)
+    }
+    class PositionLocator<<singleton>>
+    {
+        + Register()
+        +GetAllPositions()
+        +Judge()
+    }
+
+
+
+
+    abstract PositionBase
+    {
+        + TryMoveTo()
+        + MakeCard()
+        + OnBeginTurn()
+        + PositionJudge()
+    }
+
+
+    class Field
+    {
+        + Attack(attacker,target)
+    }
+
+
+    PositionLocator--|>PositionLocatorInfo
+    PositionLocator-*PositionBase : Resolve()
+
+    Field--|>PositionBase
+
+    Field-l->AttackManager
+
+}
+
+package Command
+{
+    class Command_Initialize
+}
+
+PositionBase-d-|>IPosition
+Command_Initialize-->Field : インスタンス化
+
+
+
+@enduml

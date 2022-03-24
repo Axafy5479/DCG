@@ -1,0 +1,46 @@
+@startuml Command_Play
+
+
+scale 2
+skinparam DefaultFontName 源ノ角ゴシック Code JP Medium
+
+
+package Command
+{
+    abstract class CommandBase
+    {
+        + IsPlayer
+        ~ _execute()
+    }
+
+    class Command_Play
+
+    class Command_Invoker<<Singleton>>
+    {
+        + Execute(Command)
+    }
+
+    Command_Play-u-|>CommandBase
+    Command_Invoker-r-*CommandBase : _execute()
+
+}
+
+package View
+{
+    class SomeClass
+}
+
+package Device
+{
+    class Hand
+    {
+        + TryMoveTo()
+    }
+}
+
+Command_Play--*Hand : カードの移動
+
+SomeClass-->Command_Play : ①コマンドのインスタンス化
+SomeClass-*Command_Invoker : ②コマンド実行依頼
+
+@enduml

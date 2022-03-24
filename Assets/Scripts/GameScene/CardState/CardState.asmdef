@@ -1,0 +1,18 @@
+{
+    "name": "CardState",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b306fa4ec00e2934eabfae5a15a3a988",
+        "GUID:9a4b931809e5cd445b1ecb6583e90b30",
+        "GUID:7a9c37f362fc3d4418511eea270a998a"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

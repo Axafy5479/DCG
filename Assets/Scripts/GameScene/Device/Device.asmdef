@@ -1,0 +1,20 @@
+{
+    "name": "Device",
+    "rootNamespace": "",
+    "references": [
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:7a9c37f362fc3d4418511eea270a998a",
+        "GUID:b306fa4ec00e2934eabfae5a15a3a988",
+        "GUID:6eecd7e878004ac438311b3c759a6b28",
+        "GUID:f46d4235b6225b54cb526b742ce09067"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

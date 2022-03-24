@@ -1,0 +1,27 @@
+@startuml
+
+scale 2
+skinparam DefaultFontName 源ノ角ゴシック Code JP Medium
+
+actor CardBookUser as user
+participant CardBook <<(C,#ADD1B2)>>
+participant CardState_Chara_Debug as CardState <<(C,#ADD1B2)>>
+participant CardVisualDebug_Chara as CardVisual <<(C,#ADD1B2)>>
+
+
+
+user-->CardBook : MakeCard()
+CardBook-->CardVisual : カードのGOを生成&初期化
+CardBook-->CardState : カードのステータスクラスの\nインスタンス化
+hnote over CardState : CardVisualDebugを保持\n(ステータス変化のたびに表示を変更)
+CardState-->CardVisual : Initialize(this)
+CardBook-->CardState : CardBookをもとに\nステータスを初期化
+CardState-->CardVisual : ステータス変化を反映
+CardBook-->user : 生成したカードを返す
+
+
+
+
+
+
+@enduml

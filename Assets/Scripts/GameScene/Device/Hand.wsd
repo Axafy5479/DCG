@@ -1,0 +1,77 @@
+@startuml Device
+
+
+scale 2
+skinparam DefaultFontName 源ノ角ゴシック Code JP Medium
+
+package GameInfo
+{
+    interface IPosition
+    {
+        + Cards <<readonly>>
+        + IsPlayer<<get>>
+        + Pos<<get>>
+    } 
+
+
+    abstract class PositionLocatorInfo
+    {
+        + Resolve(Pos)
+    }
+}
+
+package Device\n(CommandまたはAbilityからのみ参照可能)
+{
+
+    class PositionLocator<<singleton>>
+    {
+        + Register()
+        +GetAllPositions()
+        +Judge()
+    }
+
+
+
+
+    abstract PositionBase
+    {
+        + TryMoveTo()
+        + MakeCard()
+        + OnBeginTurn()
+        + PositionJudge()
+    }
+
+    class Mana
+    {
+        + currentMana
+        + TryUseMana()
+        + NewTurn()
+    }
+    class Hand
+    {
+        + Mana
+    }
+    
+
+    PositionLocator--|>PositionLocatorInfo
+    PositionLocator-*PositionBase : Resolve()
+
+
+    Hand--|>PositionBase
+
+    Hand-l->Mana
+
+}
+
+
+package Command
+{
+    class Command_Initialize
+}
+
+PositionBase-d-|>IPosition
+Command_Initialize-->Hand : インスタンス化
+
+
+
+@enduml

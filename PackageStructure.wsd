@@ -1,0 +1,81 @@
+@startuml
+
+' package AI{
+
+' }
+
+package GameInfo{
+
+}
+
+package Command{
+
+}
+
+package CardData{
+
+}
+
+package Device{
+
+}
+
+package View{
+
+}
+
+
+
+' package Animation{
+
+' }
+
+package CardState
+{
+
+}
+
+
+
+
+package Ability{
+
+}
+
+
+
+' Animation-->CardInterface
+' Animation-->Device
+' Animation-->View
+' Animation-->Command
+' Animation-->CardData
+
+
+' AI-->CardData
+' AI-->View
+' AI-->CardInterface
+' AI-->Command
+
+View-r->Command
+' View-->CardInterface
+View-r->CardState
+
+CardState-d->Command
+' CardState-->CardInterface
+
+' CardData-->CardInterface
+
+Command-->Device
+Command-->CardData
+' Command-->CardInterface
+
+Device-->CardData
+' Device-->CardInterface
+
+Ability-->CardData
+Ability-->Device
+
+Command-r->Ability
+
+
+@enduml

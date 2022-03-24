@@ -1,0 +1,130 @@
+@startuml GameInfo
+
+
+scale 2
+skinparam DefaultFontName 源ノ角ゴシック Code JP Medium
+
+package GameInfo(全パッケージに公開するため、読み取り専用な変数のみ公開){
+    rectangle カード関連{
+    enum StatusEffect
+
+    rectangle 図鑑\n(データベースであるため読み取り専用){
+        abstract class CardBook
+        {
+            + Id    <<get>>
+            + CardName  <<get>>
+            + CardTexture   <<get>>
+            + Description   <<get>>
+            + Cost  <<get>>
+        }
+
+        class CardBook_Chara
+        {
+            + Hp <<get>>
+            + Atk <<get>>
+        }
+    }
+
+    rectangle インターフェース\n(全てGetOnly){
+        interface ICardInfo
+        {
+            + CardName<<get>>
+            + Pos<<get>>
+            + IsPlayable<<get>>
+            + IsPlayer<<get>>
+            + Type<<get>>
+            + GameId<<get>>
+        }
+        
+
+        ' interface IPlayableInfo
+        ' {
+        '     + Cost <<get>>
+        ' }
+
+
+            interface IBattlerInfo
+        {
+            + Hp <<get>>
+            + Atk <<get>>
+            + AttackNumber<<get>>
+        }
+        note bottom : キャラクターカードが実装する
+
+    }
+    }
+
+    abstract class TurnInfo{
+        + instance <<static>>
+        + Turn <<get>>
+    }
+    note bottom : TurnはGetOnly\n(ターンチェンジは不可)
+
+    CardBook_Chara--|>CardBook
+
+    rectangle ポジション関連{
+    enum Pos
+    abstract class PositionLocatorInfo
+    {
+        + Resolve(Pos)
+    }
+    interface IPosition
+    {
+        + Cards <<readonly>>
+        + IsPlayer<<get>>
+        + Pos<<get>>
+    } 
+    note bottom : 読み取りのみ可能な情報\n(カードの位置移動などは不可)
+
+    PositionLocatorInfo-r-*IPosition : Resolve()により得られるのは\nIPosition
+    }
+
+
+}
+
+package Device\n(CommandまたはAbilityからのみ参照可能)
+{
+    class PositionLocator<<singleton>>
+    {
+        + Register()
+    }
+    class TurnManager<<singleton>>
+    {
+        + ChangeTurn()
+    }
+    note right : TurnInfoと違い\n ChangeTurn()をもつ
+
+    abstract PositionBase
+    {
+        + TryMoveTo
+    }
+    
+
+    PositionLocator--|>PositionLocatorInfo
+    PositionLocator->PositionBase : Resolve()
+    TurnManager--|>TurnInfo
+    PositionBase--|>IPosition
+    Field--|>PositionBase
+    Hand--|>PositionBase
+    Deck--|>PositionBase
+    Discard--|>PositionBase
+
+}
+
+package CardStatus(Command、AbilityまたはDeviceからのみ参照可能)
+{
+
+    interface ICardMover
+    {
+        + ChangePos()
+    }
+
+    class CardStatus
+    CardStatus-l-|>ICardMover
+}
+    PositionBase-r-*ICardMover : IPositionと異なり\nカードの移動が可能
+ICardMover--|>ICardInfo
+
+
+
+@enduml

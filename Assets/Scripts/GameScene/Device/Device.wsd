@@ -1,0 +1,96 @@
+@startuml Device
+
+
+scale 2
+skinparam DefaultFontName 源ノ角ゴシック Code JP Medium
+
+package GameInfo
+{
+    interface IPosition
+    {
+        + Cards <<readonly>>
+        + IsPlayer<<get>>
+        + Pos<<get>>
+    } 
+       abstract class TurnInfo{
+        + instance <<static>>
+        + Turn <<get>>
+    }
+
+    abstract class PositionLocatorInfo
+    {
+        + Resolve(Pos)
+    }
+}
+
+package Device\n(CommandまたはAbilityからのみ参照可能)
+{
+    class TurnManager<<singleton>>
+    {
+        + ChangeTurn()
+    }
+    note right : TurnInfoと違い\n ChangeTurn()をもつ
+
+    class AttackManager
+    {
+        + AttackManager(attacker,target)
+    }
+    class PositionLocator<<singleton>>
+    {
+        + Register()
+        +GetAllPositions()
+        +Judge()
+    }
+
+
+
+
+    abstract PositionBase
+    {
+        + TryMoveTo()
+        + MakeCard()
+        + OnBeginTurn()
+        + PositionJudge()
+    }
+
+    class Mana
+    {
+        + currentMana
+        + TryUseMana()
+        + NewTurn()
+    }
+    class Hand
+    {
+        + Mana
+    }
+    class Field
+    {
+        + Attack(attacker,target)
+    }
+    class Deck
+    {
+        + Draw()
+
+    }
+    
+
+    PositionLocator--|>PositionLocatorInfo
+    PositionLocator-*PositionBase : Resolve()
+    TurnManager--|>TurnInfo
+
+
+    Field--|>PositionBase
+    Hand--|>PositionBase
+    Deck--|>PositionBase
+    Discard--|>PositionBase
+
+    Field-u->AttackManager
+    Hand-u->Mana
+
+}
+
+PositionBase-d-|>IPosition
+
+
+
+@enduml

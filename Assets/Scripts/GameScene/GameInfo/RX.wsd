@@ -1,0 +1,81 @@
+@startuml RX
+
+scale 2
+skinparam DefaultFontName 源ノ角ゴシック Code JP Medium
+
+
+
+package View
+{
+
+    rectangle カードオブジェクト{
+        class CardView
+        {
+            + CardInfo<<get>>
+        }
+
+    }
+
+    rectangle アニメーション{
+        class AnimationQueue<<singleton>>
+        {
+
+        }
+
+        class AnimationUtility<<static>>
+        {
+
+        }
+    }
+
+
+    AnimationUtility-d-*AnimationQueue 
+    CardView-r-*AnimationUtility 
+
+    
+
+}
+
+
+
+
+
+
+
+
+package GameInfo\n(全パッケージが参照可能)
+{
+    interface IObservable<T>
+    {
+        + T Value <<get>>
+        + Subscribe(Action<T>)
+    }
+
+    interface ICardInfo
+    {
+        + IObservable<int> cost
+    }
+
+}
+
+package CardStatus
+{
+     interface IObserver<T>
+     {
+         + OnNext(T value)
+     }
+
+     class Subject<T>
+     {
+         - List< Action<T> >
+     }
+
+}
+
+Subject--|>IObservable
+Subject--|>IObserver
+CardView--*ICardInfo 
+ICardInfo-r-*IObservable
+CardView--*IObservable : 関数の\n登録
+
+@enduml

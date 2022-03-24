@@ -1,0 +1,84 @@
+@startuml View
+
+scale 2
+skinparam DefaultFontName 源ノ角ゴシック Code JP Medium
+
+package View
+{
+    rectangle ポジション{
+        abstract class PositionView{
+            + MakeCard(CardInfo)
+        }
+        class PositionViewLocator<<Singelton>>
+        {
+
+        }
+                ' note bottom : PositionViewのサービスロケーター
+
+
+        class SceneInitializer 
+            ' note bottom : 初期化が必要なオブジェクトの初期化\nCommand_Initializeの実行
+        class TurnButton
+            ' note bottom : ターン終了ボタン
+    }
+
+    rectangle カードオブジェクト{
+        class CardView
+        {
+            + CardInfo<<get>>
+        }
+            class SelectCardButton
+        {
+
+        }
+    }
+
+    rectangle アニメーション{
+        class AnimationQueue<<singleton>>
+        {
+
+        }
+
+        class AnimationUtility<<static>>
+        {
+
+        }
+    }
+
+
+
+    class SelectingManager
+    {
+
+    }
+
+    AnimationUtility-d-*AnimationQueue : アニメーションQueueに追加
+    CardView-*AnimationUtility : アニメーション\n作成依頼
+
+    CardView-l->SelectingManager : ターゲットの選択を伴う\nアビリティーの発動
+    CardView-u->SelectCardButton
+    SelectingManager-l-*SelectCardButton
+    
+
+}
+
+
+package Command
+{
+        class Command_Attack
+    class Command_Play
+    class Command_Initialize
+    class Command_TurnChange
+}
+
+package CardState
+{
+    abstract class CardState
+}
+
+TurnButton-d->Command_TurnChange : ターン変更ボタンが\n押されたとき
+CardView-d->CardState : ステートパターン
+SceneInitializer-d->Command_Initialize : ゲーム開始時に\n1度だけ実行
+CardState->Command_Play
+CardState-->Command_Attack
+@enduml 

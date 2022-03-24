@@ -1,0 +1,47 @@
+@startuml View
+
+scale 2
+skinparam DefaultFontName 源ノ角ゴシック Code JP Medium
+
+package Ability
+{
+    interface IAbilityBase
+    {
+        + Run()
+    }
+
+    class SomeAbility
+    {
+        
+    }
+
+    class Ability_DI
+    {
+
+    }
+
+    SomeAbility--|>IAbilityBase
+
+    Ability_DI-*SomeAbility
+}
+
+package GameInfo
+{
+    interface IAbilityInfo
+    {
+        + AbilityName <<get>>
+        + SpellId <<get>>
+        + Selectable <<get>>
+    }
+
+    class AbilityLocator
+    {
+        + Dictionary< int(id) , IAbilityInfo >
+    }
+
+    AbilityLocator-*IAbilityInfo
+}
+IAbilityBase--|>IAbilityInfo
+    Ability_DI--*AbilityLocator
+
+@enduml 

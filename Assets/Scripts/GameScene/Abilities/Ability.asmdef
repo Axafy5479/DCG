@@ -1,0 +1,19 @@
+{
+    "name": "Ability",
+    "rootNamespace": "",
+    "references": [
+        "CardStatus",
+        "Device",
+        "GameInfo",
+        "Utility"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

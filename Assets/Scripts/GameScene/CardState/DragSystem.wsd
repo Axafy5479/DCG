@@ -1,0 +1,24 @@
+@startuml DragSystem
+scale 2
+skinparam DefaultFontName 源ノ角ゴシック Code JP Medium
+
+actor Player
+
+participant CardView <<(C,#ADD1B2)>>
+participant CardState <<(A,#ADD1B2)>>
+participant DragCardData <<(C,#ADD1B2)準シングルトン>>
+participant PositionView <<(A,#ADD1B2)>>
+
+
+Player->CardView : ドラッグ開始
+CardView->CardState : OnBeginDrag()
+CardState->DragCardData : new DragCardData(インスタンスの生成)\nこの時「ドラッグ開始点」と「2引数メソッド」を渡す
+hnote over DragCardData : IsDraggingフラグを立てる
+Player->PositionView : ドロップ
+DragCardData<-PositionView : SetDropData()\n(ドロップ地点を教える)
+hnote over CardView : OnEndDrag()
+CardView->CardState : OnEndDrag()
+CardState->DragCardData : OnEndDrag()
+hnote over DragCardData : 二引数メソッドの実行\nIsDraggingフラグをおろす
+
+@enduml

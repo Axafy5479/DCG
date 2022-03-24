@@ -1,0 +1,35 @@
+@startuml View
+
+scale 2
+skinparam DefaultFontName 源ノ角ゴシック Code JP Medium
+
+package View
+{
+
+    rectangle カードオブジェクト{
+        class CardView
+        {
+            + CardInfo<<get>>
+            - CardState
+        }
+
+    }
+
+}
+
+
+package Command
+{
+        class Command_Attack
+    class Command_Play
+}
+
+package CardState
+{
+    abstract class CardState
+}
+
+CardView-d->CardState : ステートパターン
+CardState->Command_Play
+CardState-->Command_Attack
+@enduml 

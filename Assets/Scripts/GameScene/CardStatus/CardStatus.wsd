@@ -1,0 +1,89 @@
+@startuml CardStatus
+scale 2
+skinparam DefaultFontName 源ノ角ゴシック Code JP Medium
+
+package Device
+{
+    abstract PositionBase
+    {
+
+    }
+
+}
+
+package GameInfo\n(全パッケージに公開)
+{
+
+        interface ICardInfo
+        {
+            + CardName<<get>>
+            + Pos<<get>>
+            + IsPlayable<<get>>
+            + IsPlayer<<get>>
+            + Type<<get>>
+            + GameId<<get>>
+            + Cost <<get>>
+        }
+    class CardBook
+    interface IBattlerInfo{
+                + Hp <<get>>
+            + Atk <<get>>
+            + AttackNumber<<get>>
+    }
+
+
+}
+
+package CardStatus\n(Command、AbilityまたはDeviceからのみ参照可能){
+
+    class CardStatus_Spell
+
+
+
+abstract class CardStatus
+{
+    + Pos
+    + Cost
+    + IsPlayable
+    + ChangePos()
+}
+
+
+class CardStatus_Chara
+{
+    + Hp
+    + Atk
+    + AttackNumber
+    +StatusEffect
+    
+}
+
+interface IChangeStatus
+{
+    + OnDead()
+    + Damage(damage)
+    + AddStatusEffect()
+    + RemoveStatusEffect()
+}
+interface ICardMover
+{
+    + ChangePos(to)
+}
+
+CardStatus_Chara--|>IChangeStatus
+CardStatus_Chara--|>ICardMover
+CardStatus_Chara--|>CardStatus
+CardStatus_Spell--|>CardStatus
+CardStatus_Spell--|>ICardMover
+
+}
+
+
+ICardMover--|>ICardInfo
+CardStatus--*CardBook
+CardStatus--|>ICardInfo
+IChangeStatus--|>IBattlerInfo
+PositionBase->CardStatus_Chara: CardBookを用いて\nインスタンス化
+
+
+@enduml

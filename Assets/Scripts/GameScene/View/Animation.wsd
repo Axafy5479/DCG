@@ -1,0 +1,48 @@
+@startuml View
+
+scale 2
+skinparam DefaultFontName 源ノ角ゴシック Code JP Medium
+
+package View
+{
+
+    rectangle カードオブジェクト{
+        class CardView
+        {
+            + CardInfo<<get>>
+        }
+
+    }
+
+    rectangle アニメーション{
+        class AnimationQueue<<singleton>>
+        {
+
+        }
+
+        class AnimationUtility<<static>>
+        {
+
+        }
+    }
+
+
+    AnimationUtility-d-*AnimationQueue : ③アニメーションQueueに追加
+    CardView-r-*AnimationUtility : ②アニメーション\n作成依頼
+
+    
+
+}
+
+
+
+package GameInfo
+{
+    interface ICardInfo
+}
+
+CardView--*ICardInfo : ①カードのステータスの変化を検知
+
+
+
+@enduml 
