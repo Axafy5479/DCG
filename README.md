@@ -1,5 +1,1 @@
-# CardGameLec
-
-# 準備
-
-- TextMeshProのインポート
+https://framari.org/Programming/CardGame/Design.pdf
